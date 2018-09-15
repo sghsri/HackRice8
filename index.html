@@ -7,10 +7,16 @@
 </head>
 
 <body>
-    <h1 id="songTitle">Song Title</h1>
+    <h1 id="songTitle" class="title">Song Title</h1>
+    <h1 id="artist" class="subtitle">Artist</h1>
     <img id="albumArt" src="">
+    <div style="width:90%;margin:20px;">
+        <div style="width:20px; height:20px; background-color:aqua;" id="progress"></div>
+        <div style="width:90%;  height:10px;  background:#000; position: absolute; "></div>
+
+    </div>
     <br>
-    <button id="hello">Hello</button>
+    <button id="toggle">Toggle</button>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
@@ -20,7 +26,7 @@
 
         window.onSpotifyWebPlaybackSDKReady = () => {
             const token =
-                'BQCxwxCFtf9NjNfCNMjSpAq7at_yAvH8KC1Ep_5IcKr3m-f8dGjlAGNBvc6goL6oRk6Pu6iKJ4oPgWoFQgvSEnnkN50Yu_JD22kHje0Y1gHDm__D6L_fcccbDz_GSzPcNakK0i3_BK5hlUHpnwfYMKZ6aFs5nvxz_72ZYA';
+                'BQD4o-EeSKALmXO0s-7zSsHJFwsBKSX7HL7hT4IsrpIXzw_-2NF2jOBQSu5NptSpJ-YfiGy6TbFTnu6NcYikjnDTTovF0onAUxHfGMSSWPaNaaC9ygfYJRbkd9an3FvSVIP_fsw2ZErwwU7EoaNWxQdz0PpZnnBhDqM8mA';
             const player = new Spotify.Player({
                 name: 'Web Playback SDK Quick Start Player',
                 getOAuthToken: cb => {
@@ -29,23 +35,25 @@
             });
 
             socket.on('pause', function (msg) {
-                player.pause().then(() => {
-                    console.log('Paused!');
+                player.togglePlay().then(() => {
+                    console.log('Toggled playback!');
                 });
             });
-            $("#hello").click(() => {
+            setInterval(function () {
                 player.getCurrentState().then(state => {
                     if (!state) {
                         console.error('User is not playing music through the Web Playback SDK');
                         return;
                     }
-                    let {
-                        current_track,
-                        next_tracks: [next_track]
-                    } = state.track_window;
+                    var percentage = (100 * (state.position / state.duration)) + "%";
+                    $("#progress").css("margin-left", percentage);
+                });
+            }, 50);
 
-                    console.log('Currently Playing', current_track);
-                    console.log('Playing Next', next_track);
+            $()
+            $("#toggle").click(() => {
+                player.togglePlay().then(() => {
+                    console.log('Toggled playback!');
                 });
             });
 
@@ -77,6 +85,7 @@
                     next_tracks: [next_track]
                 } = state.track_window;
                 $("#songTitle").text(current_track.name);
+                $("#artist").text(current_track.artists[0].name);
                 $("#albumArt").prop("src", current_track.album.images[0].url);
             });
             player.addListener('ready', ({
