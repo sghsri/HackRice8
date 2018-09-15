@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Party App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+</head>
+
+<body style="margin-left:20px; margin-top:20px;">
+    <h1 id="songTitle" class="title">Song Title</h1>
+    <h1 id="artist" class="subtitle">Artist</h1>
+    <div style="display: inline">
+        <figure class="image is-128x128" style="width:20%; margin-bottom: 200px;">
+            <img class="" id="albumArt" src="https://bulma.io/images/placeholders/128x128.png">
+        </figure>
+        <div style="width:90%;margin:20px 0px 20px 0px;">
+            <div style="width:20px; height:20px;" class="has-background-primary" id="progress"></div>
+            <div style="width:90%;  height:10px;  background:#000; "></div>
+        </div>
+    </div>
+
+    <br>
+    <button class="button is-warning" id="back">&#8592;Previous</button>
+    <button class='button is-danger' style="margin-bottom:20px;" id="toggle">Pause/Play</button>
+    <button class="button is-warning" id="skip">Next&#8594;</button>
+    <br>
+    <h1 class="title" id="nextSong">Next Song</h1>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+
+        function reqListener() {
+            console.log(this.responseText);
+        }
+
+        var oReq = new XMLHttpRequest();
+
+        oReq.open("GET", "/get_creds");
+        oReq.send();
+
+        window.onSpotifyWebPlaybackSDKReady = () => {
+
+            const token =
+                'BQDU7Gy5dBI5QH-nOToBo29f0Nc5KI94RiS2iqp8L7io8YgzG_-4t0IoqB3lRL0-wl43ySJIDeWIBx6pfDU2z0GT0YFummJDKXWh_aXBh9gNg7dbtX6Ns-K8X-Tnj60CPi18Ru6QsXfblF5sQLX_YLyppG0qtkHP94pntA';
+            const player = new Spotify.Player({
+                name: 'Web Playback SDK Quick Start Player',
+                getOAuthToken: cb => {
+                    cb(token);
+                }
+            });
+
+            socket.on('pause', function (msg) {
+                player.togglePlay().then(() => {
+                    console.log('Toggled playback!');
+                });
+            });
+            //FOR THE PERCENTAGE BAR
+            setInterval(function () {
+                player.getCurrentState().then(state => {
+                    if (!state) {
+                        // console.error('User is not playing music through the Web Playback SDK');
+                        return;
+                    }
+                    var percentage = (100 * (state.position / state.duration)) + "%";
+                    $("#progress").css("margin-left", percentage);
+                    socket.emit('room_state', {
+                        id: 1,
+                        roomstate: state
+                    });
+                });
+            }, 50);
+
+            $()
+            $("#toggle").click(() => {
+                player.togglePlay().then(() => {
+                    console.log('Toggled playback!');
+                });
+            });
+            $("#skip").click(() => {
+                player.nextTrack().then(() => {
+                    console.log('Skipped to next track!');
+                });
+            });
+            $("#back").click(() => {
+                player.previousTrack().then(() => {
+                    console.log('Set to previous track!');
+                });
+            });
+            // Error handling
+            player.addListener('initialization_error', ({
+                message
+            }) => {
+                console.error(message);
+            });
+            player.addListener('authentication_error', ({
+                message
+            }) => {
+                console.error(message);
+            });
+            player.addListener('account_error', ({
+                message
+            }) => {
+                console.error(message);
+            });
+            player.addListener('playback_error', ({
+                message
+            }) => {
+                console.error(message);
+            });
+            player.addListener('player_state_changed', state => {
+                console.log(state);
+                let {
+                    current_track,
+                    next_tracks: [next_track]
+                } = state.track_window;
+                $("#songTitle").text(current_track.name);
+                $("#artist").text(current_track.artists[0].name);
+                $("#albumArt").prop("src", current_track.album.images[0].url);
+                $("#nextSong").text(state.track_window.next_tracks[0].name + " > " + state.track_window.next_tracks[
+                    1].name);
+            });
+            player.addListener('ready', ({
+                device_id
+            }) => {
+                console.log('Ready with Device ID', device_id);
+            });
+            player.addListener('not_ready', ({
+                device_id
+            }) => {
+                console.log('Device ID has gone offline', device_id);
+            });
+            player.connect();
+        };
+    </script>
+</body>
+
+</html>
