@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Document</title>
+
+    <style>
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            -webkit-background-size: contain;
+            -moz-background-size: contain;
+            -o-background-size: contain;
+            background-size: contain;
+            -webkit-filter: blur(5px);
+        }
+
+        .card {
+            opacity: .9;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="background-image"></div>
+
+    <div class="columns" style="padding:20px;">
+        <div class="column is-one-fifth">
+            <div class="card" id="peopletab">
+                <div class="card-content" style="padding:10px;margin-left: 30%  ">
+                    <h1 class="title" style="margin-bottom:5px; float:left;">80</h1>
+                    <i class="material-icons" style="margin-left:10px; margin-top: 7px;">people </i>
+                </div>
+            </div>
+            <div class="card" id="playlisttab">
+                <div class="card-content">
+                    <p class="menu-label">
+                        Host's Playlists
+                    </p>
+                    <ul class="menu-list">
+                        <li><a>"409"</a></li>
+                        <li><a>"4th of July"</a></li>
+                        <li><a class="is-active">"Add Some Music to Your Day"</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Dashboard</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Dashboard</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Dashboard</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Dashboard</a></li>
+                        <li><a>Customers</a></li>
+                    </ul>
+
+                    </aside>
+                </div>
+            </div>
+        </div>
+        <div class="column is-centered" style="margin-left: 20px;">
+            <div class="card has-text-centered" id="maincard">
+                <h1 class="title is-size-1" style="padding:20px 20px 0px 20px;">Hack Rice Partyyy</h1>
+                <div class="card-content" style="padding:0px;">
+                    <div class="column is-centered">
+                        <figure class="image is-256x256 has-text-centered" style="width: 35%; height: 35%; margin:0px auto 20px auto;">
+                            <img class="is-rounded" id="albumArt" src="https://99designs-blog.imgix.net/blog/wp-content/uploads/2017/12/attachment_68585523.jpg?auto=format&q=60&fit=max&w=930                                        ASWW">
+                            <h1 id="songTitle" style="margin-top:10px;" class=" title">Song Title
+                            </h1>
+                            <p id="artist" class="subtitle">Artist</p>
+                        </figure>
+                        <div style="width:90%;margin:15px auto 15px auto;">
+                            <div style="width:5px; height:20px; position:absolute; " class="has-background-danger" id="progress"></div>
+                            <div style="width:100%;  height:10px;" class="has-background-info"></div>
+                        </div>
+                        <div style="margin:15px auto 10px auto;">
+
+                            <button class="button is-warning is-3" id="back"><i class="material-icons">
+                                    navigate_before
+                                </i></button>
+                            <button class='button is-danger is-3' id="toggle" name="pause"><i class="material-icons" id="toggleicon">
+                                    play_arrow
+                                </i>
+                            </button>
+                            <button class="button is-warning is-3" id="skip"><i class="material-icons">
+                                    navigate_next
+                                </i></button>
+                        </div>
+                    </div>
+                    <h1 class="subtitle" style="padding-bottom:10px" id="nextSong">Next Song</h1>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-container has-text-centered" style="padding:10px;">
+                    <div class="button is-primary is-size-4">Party Data</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <div class="card-container">
+                    <aside class="menu" style="padding:15px;">
+                        <p class="menu-label">
+                            General
+                        </p>
+                        <ul class="menu-list">
+                            <li><a>Dashboard</a></li>
+                            <li><a>Customers</a></li>
+                        </ul>
+                        <p class="menu-label">
+                            Administration
+                        </p>
+                        <ul class="menu-list">
+                            <li><a>Team Settings</a></li>
+                            <li>
+                                <a class="is-active">Manage Your Team</a>
+                                <ul>
+                                    <li><a>Members</a></li>
+                                    <li><a>Plugins</a></li>
+                                    <li><a>Add a member</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="menu-label">
+                            Vote Time
+                        </p>
+                        <div class="card has-text-centered">
+                            <div class="card-container" style="padding:20px;">
+                                <div class="button is-primary is-size-4" id="votetime">Vote Time</div>
+                            </div>
+                        </div>
+                    </aside>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            const token =
+                'BQBI9OlP50pkza1r3kCPQckNQ3zjmrbBOe__FNaLmydYG9tKaOHxZhrHY3D49DKu-fCY1tlEmRODFnE2ihPVMS8g_JB8XhT1RUJdlCPCnPqAM6af7Di9_A9ypoIc9bhreXC-YHStGWjmTlDjYjBZpfTkiFIqNqFKImr3hQ         ';
+            const player = new Spotify.Player({
+                name: 'Web Playback SDK Quick Start Player',
+                getOAuthToken: cb => {
+                    cb(token);
+                }
+            });
+
+            socket.on('pause', function (msg) {
+                toggleIcon();
+                player.togglePlay().then(() => {
+                    console.log('Toggled playback!');
+                });
+            });
+            //FOR THE PERCENTAGE BAR
+            setInterval(function () {
+                player.getCurrentState().then(state => {
+                    if (!state) {
+                        // console.error('User is not playing music through the Web Playback SDK');
+                        return;
+                    }
+                    var percentage = (100 * (state.position / state.duration)) + "%";
+                    $("#progress").css("margin-left", percentage);
+                    var seconds = parseInt(((state.duration - state.position) / 1000));
+                    $("#votetime").text(`${seconds} seconds`);
+                    socket.emit('room_state', {
+                        id: 1,
+                        roomstate: state
+                    });
+                });
+            }, 50);
+
+            $()
+            $("#toggle").click(() => {
+                toggleIcon();
+                player.togglePlay().then(() => {
+                    console.log('Toggled playback!');
+                });
+            });
+
+            function toggleIcon() {
+                if ($("#toggleicon").text().includes('pause')) {
+                    console.log("paused");
+                    $("#toggleicon").text('play_arrow');
+                } else {
+                    console.log("played");
+                    $("#toggleicon").text('pause');
+                }
+            }
+            $("#peopletab").click(() => {
+                if ($("#playlisttab").is(":hidden")) {
+                    $("#playlisttab").show();
+                } else {
+                    $("#playlisttab").hide();
+                }
+            });
+            $("#skip").click(() => {
+                player.nextTrack().then(() => {
+                    console.log('Skipped to next track!');
+                });
+            });
+            $("#back").click(() => {
+                player.previousTrack().then(() => {
+                    console.log('Set to previous track!');
+                });
+            });
+            // Error handling
+            player.addListener('initialization_error', ({
+                message
+            }) => {
+                console.error(message);
+            });
+            player.addListener('authentication_error', ({
+                message
+            }) => {
+                console.error(message);
+            });
+            player.addListener('account_error', ({
+                message
+            }) => {
+                console.error(message);
+            });
+            player.addListener('playback_error', ({
+                message
+            }) => {
+                console.error(message);
+            });
+            player.addListener('player_state_changed', state => {
+                console.log(state);
+                let {
+                    current_track,
+                    next_tracks: [next_track]
+                } = state.track_window;
+                $("#songTitle").text(current_track.name);
+                $("#artist").text(current_track.artists[0].name);
+                $("#albumArt").prop("src", current_track.album.images[0].url);
+                $(".background-image").css('background-image', `url(${current_track.album.images[0].url})`);
+                $("#nextSong").text(state.track_window.next_tracks[0].name + " > " + state.track_window.next_tracks[
+                    1].name);
+            });
+            player.addListener('ready', ({
+                device_id
+            }) => {
+                console.log('Ready with Device ID', device_id);
+            });
+            player.addListener('not_ready', ({
+                device_id
+            }) => {
+                console.log('Device ID has gone offline', device_id);
+            });
+            player.connect();
+        };
+    </script>
+</body>
+
+</html>
