@@ -50,12 +50,13 @@ io.on('connection', function (client) {
     });
 });
 
-function Room(roomid, people, playlist, current, next) {
+function Room(roomid, people, playlist, current, next, prevSongs) {
     this.roomid = roomid;
     this.people = people;
     this.playlist = playlist;
     this.current = current;
     this.next = next;
+    this.prevSongs
 }
 
 function getRoom(roomid) {
