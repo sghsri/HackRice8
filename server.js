@@ -21,7 +21,7 @@ app.use(function (req, res, next) {
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
 });
-app.get("/potato", (req, res) => {
+app.get("/client", (req, res) => {
     res.sendFile(__dirname + "/client.html");
 });
 

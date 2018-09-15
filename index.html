@@ -6,17 +6,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
 </head>
 
-<body>
+<body style="margin-left:20px; margin-top:20px;">
     <h1 id="songTitle" class="title">Song Title</h1>
     <h1 id="artist" class="subtitle">Artist</h1>
-    <img id="albumArt" src="">
-    <div style="width:90%;margin:20px;">
-        <div style="width:20px; height:20px; background-color:aqua;" id="progress"></div>
-        <div style="width:90%;  height:10px;  background:#000; position: absolute; "></div>
-
+    <div style="display: inline">
+        <figure class="image is-128x128" style="width:20%; margin-bottom: 200px;">
+            <img class="" id="albumArt" src="https://bulma.io/images/placeholders/128x128.png">
+        </figure>
+        <div style="width:90%;margin:20px 20px 20px 0px;">
+            <div style="width:20px; height:20px;" class="has-background-primary" id="progress"></div>
+            <div style="width:90%;  height:10px;  background:#000; "></div>
+        </div>
     </div>
+
     <br>
-    <button id="toggle">Toggle</button>
+    <button class='button is-danger' style="margin-bottom:20px;" id="toggle">Pause/Play</button>
+    <br>
+    <h1 class="title" id="nextSong">Next Song</h1>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
@@ -26,7 +32,7 @@
 
         window.onSpotifyWebPlaybackSDKReady = () => {
             const token =
-                'BQD4o-EeSKALmXO0s-7zSsHJFwsBKSX7HL7hT4IsrpIXzw_-2NF2jOBQSu5NptSpJ-YfiGy6TbFTnu6NcYikjnDTTovF0onAUxHfGMSSWPaNaaC9ygfYJRbkd9an3FvSVIP_fsw2ZErwwU7EoaNWxQdz0PpZnnBhDqM8mA';
+                'BQA78Q4Hvoq_IirvfXRIOKy9KPLxJf3Zm6SzS5uaw6TEDKpClh15zkQ27uY6ajH5LKFxpmeS05MIRlSixRqNum2sNIVFb1kJQMogCHGEVwI4ve12XNERAQ3CjxGF7e2jjDrdoNWBrcW2-r-Hz_GAvhb_K0DX-oABVtG1yw';
             const player = new Spotify.Player({
                 name: 'Web Playback SDK Quick Start Player',
                 getOAuthToken: cb => {
@@ -39,10 +45,11 @@
                     console.log('Toggled playback!');
                 });
             });
+            //FOR THE PERCENTAGE BAR
             setInterval(function () {
                 player.getCurrentState().then(state => {
                     if (!state) {
-                        console.error('User is not playing music through the Web Playback SDK');
+                        // console.error('User is not playing music through the Web Playback SDK');
                         return;
                     }
                     var percentage = (100 * (state.position / state.duration)) + "%";
@@ -56,7 +63,6 @@
                     console.log('Toggled playback!');
                 });
             });
-
             // Error handling
             player.addListener('initialization_error', ({
                 message
@@ -87,6 +93,8 @@
                 $("#songTitle").text(current_track.name);
                 $("#artist").text(current_track.artists[0].name);
                 $("#albumArt").prop("src", current_track.album.images[0].url);
+                $("#nextSong").text(state.track_window.next_tracks[0].name + " > " + state.track_window.next_tracks[
+                    1].name);
             });
             player.addListener('ready', ({
                 device_id
