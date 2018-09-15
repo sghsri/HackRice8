@@ -17,6 +17,14 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     var socket = io();
+    fetch('/state')
+        .then(function (response) {
+            console.log(response);
+            return response.json();
+        })
+        .then(function (myJson) {
+            console.log(JSON.stringify(myJson));
+        });
     $("#pause").click(function () {
         console.log("hello");
         socket.emit('player', 'pause');

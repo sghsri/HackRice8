@@ -1,30 +1,152 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Party App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Document</title>
+
+    <style>
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            -webkit-background-size: contain;
+            -moz-background-size: contain;
+            -o-background-size: contain;
+            background-size: contain;
+            -webkit-filter: blur(5px);
+        }
+
+        .card {
+            opacity: .9;
+        }
+    </style>
 </head>
 
-<body style="margin-left:20px; margin-top:20px;">
-    <h1 id="songTitle" class="title">Song Title</h1>
-    <h1 id="artist" class="subtitle">Artist</h1>
-    <div style="display: inline">
-        <figure class="image is-128x128" style="width:20%; margin-bottom: 200px;">
-            <img class="" id="albumArt" src="https://bulma.io/images/placeholders/128x128.png">
-        </figure>
-        <div style="width:90%;margin:20px 0px 20px 0px;">
-            <div style="width:20px; height:20px;" class="has-background-primary" id="progress"></div>
-            <div style="width:90%;  height:10px;  background:#000; "></div>
+
+<body>
+    <div class="background-image"></div>
+
+    <div class="columns" style="padding:20px;">
+        <div class="column is-one-fifth">
+            <div class="card" id="peopletab">
+                <div class="card-content" style="padding:10px;margin-left: 30%  ">
+                    <h1 class="title" style="margin-bottom:5px; float:left;">80</h1>
+                    <i class="material-icons" style="margin-left:10px; margin-top: 7px;">people </i>
+                </div>
+            </div>
+            <div class="card" id="playlisttab">
+                <div class="card-content">
+                    <p class="menu-label">
+                        Host's Playlists
+                    </p>
+                    <ul class="menu-list">
+                        <li><a>"409"</a></li>
+                        <li><a>"4th of July"</a></li>
+                        <li><a class="is-active">"Add Some Music to Your Day"</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Dashboard</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Dashboard</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Dashboard</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Dashboard</a></li>
+                        <li><a>Customers</a></li>
+                    </ul>
+
+                    </aside>
+                </div>
+            </div>
+        </div>
+        <div class="column is-centered" style="margin-left: 20px;">
+            <div class="card has-text-centered" id="maincard">
+                <h1 class="title is-size-1" style="padding:20px 20px 0px 20px;">Hack Rice Partyyy</h1>
+                <div class="card-content" style="padding:0px;">
+                    <div class="column is-centered">
+                        <figure class="image is-256x256 has-text-centered" style="width: 35%; height: 35%; margin:0px auto 20px auto;">
+                            <img class="is-rounded" id="albumArt" src="https://99designs-blog.imgix.net/blog/wp-content/uploads/2017/12/attachment_68585523.jpg?auto=format&q=60&fit=max&w=930                                        ASWW">
+                            <h1 id="songTitle" style="margin-top:10px;" class=" title">Song Title
+                            </h1>
+                            <p id="artist" class="subtitle">Artist</p>
+                        </figure>
+                        <div style="width:90%;margin:15px auto 15px auto;">
+                            <div style="width:5px; height:20px; position:absolute; " class="has-background-danger" id="progress"></div>
+                            <div style="width:100%;  height:10px;" class="has-background-info"></div>
+                        </div>
+                        <div style="margin:15px auto 10px auto;">
+
+                            <button class="button is-warning is-3" id="back"><i class="material-icons">
+                                    navigate_before
+                                </i></button>
+                            <button class='button is-danger is-3' id="toggle" name="pause"><i class="material-icons" id="toggleicon">
+                                    play_arrow
+                                </i>
+                            </button>
+                            <button class="button is-warning is-3" id="skip"><i class="material-icons">
+                                    navigate_next
+                                </i></button>
+                        </div>
+                    </div>
+                    <h1 class="subtitle" style="padding-bottom:10px" id="nextSong">Next Song</h1>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-container has-text-centered" style="padding:10px;">
+                    <div class="button is-primary is-size-4">Party Data</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="column is-one-fifth">
+            <div class="card">
+                <div class="card-container">
+                    <aside class="menu" style="padding:15px;">
+                        <p class="menu-label">
+                            General
+                        </p>
+                        <ul class="menu-list">
+                            <li><a>Dashboard</a></li>
+                            <li><a>Customers</a></li>
+                        </ul>
+                        <p class="menu-label">
+                            Administration
+                        </p>
+                        <ul class="menu-list">
+                            <li><a>Team Settings</a></li>
+                            <li>
+                                <a class="is-active">Manage Your Team</a>
+                                <ul>
+                                    <li><a>Members</a></li>
+                                    <li><a>Plugins</a></li>
+                                    <li><a>Add a member</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="menu-label">
+                            Vote Time
+                        </p>
+                        <div class="card has-text-centered">
+                            <div class="card-container" style="padding:20px;">
+                                <div class="button is-primary is-size-4">Vote Time</div>
+                            </div>
+                        </div>
+                    </aside>
+
+                </div>
+
+            </div>
+
         </div>
     </div>
-
-    <br>
-    <button class="button is-warning" id="back">&#8592;Previous</button>
-    <button class='button is-danger' style="margin-bottom:20px;" id="toggle">Pause/Play</button>
-    <button class="button is-warning" id="skip">Next&#8594;</button>
-    <br>
-    <h1 class="title" id="nextSong">Next Song</h1>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
@@ -34,7 +156,7 @@
 
         window.onSpotifyWebPlaybackSDKReady = () => {
             const token =
-                'BQASZyy5ceOiI45FBHkgN6y-HMNtW2U1dJi__ExICCtMEgGP5XnQu5Jcqz3JfsS2gC2hAjTyGa1dZWULsYvMbG2bfQPGm-1rVDOOtiBu-ejpQf9QXHmWtdGnZoXWNHQIlSJGpPXskXMyioe5EdX__4xit4o8opHeAGNHxw';
+                'BQCtxX5TSdL8nELy2Sz5gBdOFfUsTJuwvzFZsYwgFxtK_e1aoXWiacfNLONk-Ecpw_O-26noUPB9PlHSFVBgrB2imagLttCn1BznVu4sazBvGaiThUyp66LBAsV04uXKCv_pbnSunXxjxlxG0TMA_w6pe1zwRgoADVMO-A';
             const player = new Spotify.Player({
                 name: 'Web Playback SDK Quick Start Player',
                 getOAuthToken: cb => {
@@ -43,6 +165,7 @@
             });
 
             socket.on('pause', function (msg) {
+                toggleIcon();
                 player.togglePlay().then(() => {
                     console.log('Toggled playback!');
                 });
@@ -65,9 +188,27 @@
 
             $()
             $("#toggle").click(() => {
+                toggleIcon();
                 player.togglePlay().then(() => {
                     console.log('Toggled playback!');
                 });
+            });
+
+            function toggleIcon() {
+                if ($("#toggleicon").text().includes('pause')) {
+                    console.log("paused");
+                    $("#toggleicon").text('play_arrow');
+                } else {
+                    console.log("played");
+                    $("#toggleicon").text('pause');
+                }
+            }
+            $("#peopletab").click(() => {
+                if ($("#playlisttab").is(":hidden")) {
+                    $("#playlisttab").show();
+                } else {
+                    $("#playlisttab").hide();
+                }
             });
             $("#skip").click(() => {
                 player.nextTrack().then(() => {
@@ -109,6 +250,7 @@
                 $("#songTitle").text(current_track.name);
                 $("#artist").text(current_track.artists[0].name);
                 $("#albumArt").prop("src", current_track.album.images[0].url);
+                $(".background-image").css('background-image', `url(${current_track.album.images[0].url})`);
                 $("#nextSong").text(state.track_window.next_tracks[0].name + " > " + state.track_window.next_tracks[
                     1].name);
             });

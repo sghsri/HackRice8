@@ -24,11 +24,16 @@ app.get("/", (req, res) => {
 app.get("/client", (req, res) => {
     res.sendFile(__dirname + "/client.html");
 });
+app.get("/state", (req, res) => {
+    res.send(rooms[0]);
+});
 
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
     console.log(`Listening on port: ${port}`);
 });
+
+
 
 io.on('connection', function (client) {
     console.log('Client connected...');
@@ -46,7 +51,7 @@ io.on('connection', function (client) {
         } else {
             rooms.push(data);
         }
-        console.log(rooms);
+        //console.log(rooms);
     });
 });
 
