@@ -39,9 +39,24 @@ io.on('connection', function (client) {
     client.on('join', function (data) {
         client.join(data);
     });
+    client.on('room_state', function (data) {
+        let room = getRoom(data.roomid);
+        if (room) {
 
+        } else {
+            rooms.push(data);
+        }
+        console.log(rooms);
+    });
 });
 
+function Room(roomid, people, playlist, current, next) {
+    this.roomid = roomid;
+    this.people = people;
+    this.playlist = playlist;
+    this.current = current;
+    this.next = next;
+}
 
 function getRoom(roomid) {
     for (var i = 0; i < rooms.length; i++) {
@@ -49,7 +64,7 @@ function getRoom(roomid) {
             return rooms[i];
         }
     }
-    return -1;
+    return;
 }
 
 function generateRoomID() {
