@@ -10,7 +10,7 @@ var rooms = [];
 
 const client_id = 'bac3e679960b44728036dbc217e16533'; // Your client id
 const client_secret = 'f2d9a60b59334794ab649087b1eaf12b'; // Your secret
-const redirect_uri = 'http://localhost:3000/main' // Your redirect uri
+const redirect_uri = 'https://localhost:3000/main/' // Your redirect uri
 
 var stateKey = 'spotify_auth_state';
 
