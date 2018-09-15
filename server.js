@@ -33,8 +33,6 @@ server.listen(port, () => {
     console.log(`Listening on port: ${port}`);
 });
 
-
-
 io.on('connection', function (client) {
     console.log('Client connected...');
     client.on('player', function (data) {

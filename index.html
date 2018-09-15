@@ -136,7 +136,7 @@
                         </p>
                         <div class="card has-text-centered">
                             <div class="card-container" style="padding:20px;">
-                                <div class="button is-primary is-size-4">Vote Time</div>
+                                <div class="button is-primary is-size-4" id="votetime">Vote Time</div>
                             </div>
                         </div>
                     </aside>
@@ -156,7 +156,7 @@
 
         window.onSpotifyWebPlaybackSDKReady = () => {
             const token =
-                'BQCtxX5TSdL8nELy2Sz5gBdOFfUsTJuwvzFZsYwgFxtK_e1aoXWiacfNLONk-Ecpw_O-26noUPB9PlHSFVBgrB2imagLttCn1BznVu4sazBvGaiThUyp66LBAsV04uXKCv_pbnSunXxjxlxG0TMA_w6pe1zwRgoADVMO-A';
+                'BQDSsm-j3rtuHiK7ptUYa70hx95y_9-9u91mQCv0LY6P5R7YXqCV2EBSaIZf2vM7B_Req-fRxY8ui9mGPz7w1lUcSHXe7ybEESl0-RS-m6CatGwMY_-GHDkQtRjozPuWpHUhPW5pCWVR8E_-atjhc3jl_iMpqlITobocmg            ';
             const player = new Spotify.Player({
                 name: 'Web Playback SDK Quick Start Player',
                 getOAuthToken: cb => {
@@ -179,6 +179,8 @@
                     }
                     var percentage = (100 * (state.position / state.duration)) + "%";
                     $("#progress").css("margin-left", percentage);
+                    var seconds = parseInt(((state.duration - state.position) / 1000));
+                    $("#votetime").text(`${seconds} seconds`);
                     socket.emit('room_state', {
                         id: 1,
                         roomstate: state
