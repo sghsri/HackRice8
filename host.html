@@ -62,7 +62,7 @@
         <div class="column is-one-fifth">
             <div class="card" id="peopletab">
                 <div class="card-content" style="padding:10px;margin-left: 30%  ">
-                    <h1 class="title" style="margin-bottom:5px; float:left;">80</h1>
+                    <h1 class="title" id="peoplenum" style="margin-bottom:5px; float:left;">80</h1>
                     <i class="material-icons" style="margin-left:10px; margin-top: 7px;">people </i>
                 </div>
             </div>
@@ -121,25 +121,9 @@
                 <div class="card-container">
                     <aside class="menu" style="padding:15px;">
                         <p class="menu-label">
-                            General
+                            Voting Choices:
                         </p>
-                        <ul class="menu-list">
-                            <li><a>Dashboard</a></li>
-                            <li><a>Customers</a></li>
-                        </ul>
-                        <p class="menu-label">
-                            Administration
-                        </p>
-                        <ul class="menu-list">
-                            <li><a>Team Settings</a></li>
-                            <li>
-                                <a class="is-active">Manage Your Team</a>
-                                <ul>
-                                    <li><a>Members</a></li>
-                                    <li><a>Plugins</a></li>
-                                    <li><a>Add a member</a></li>
-                                </ul>
-                            </li>
+                        <ul id='votinglist' class="menu-list">
                         </ul>
                         <p class="menu-label">
                             Vote Time
@@ -191,7 +175,7 @@
         }
         window.onSpotifyWebPlaybackSDKReady = () => {
             const token =
-                'BQDve-XuTHCgNHOLocvdWINa9DoHENhVXDeZXDsEuuXXU7moZ8ZBTEt-B7tHjyrKAo2X0yWrPoumnJnPrtOFiwYXZAhXDLhgoIsPSZMLLTNZquLCfTPy006WlDhXSn39VnsKsajopt_jFKS1GYw_MzZVfJiZSCRqfrwccg';
+                'BQDwezEetkN5ovaw-lUmDaZKu2cbBmH47P-Vv2wR_ZViX2qteyZpAM-QFXpAzxgmc27BfNBLvjgUBzmfq8ei7GKr6r7w3eZTVAAUu5AyA58A6vHFFnW9XhvF2q_JB7c0dwy6NyQYtLHgaQZobL6eS5q4eSnPyqrJui05Mw';
             const player = new Spotify.Player({
                 name: 'Partify',
                 getOAuthToken: cb => {
@@ -206,9 +190,12 @@
                     console.log('Toggled playback!');
                 });
             });
-
+            var totalvotes = 0;
+            $("#peoplenum").text(totalvotes);
             socket.on('voted', function (msg) {
                 which[msg]++;
+                totalvotes++;
+                $("#peoplenum").text(totalvotes);
                 console.log(which);
             });
             $(".playlist").click(() => {
@@ -240,6 +227,7 @@
                         }
                         which = [0, 0];
                     }
+                    $("#peoplenum").text(totalvotes);
                     socket.emit('room_state', {
                         id: id,
                         roomstate: state
@@ -247,7 +235,6 @@
                 });
             }, 50);
 
-            $()
             $("#toggle").click(() => {
                 toggleIcon();
                 player.togglePlay().then(() => {
@@ -275,11 +262,13 @@
                 player.nextTrack().then(() => {
                     console.log('Skipped to next track!');
                 });
+                totalvotes = 0;
             });
             $("#back").click(() => {
                 player.previousTrack().then(() => {
                     console.log('Set to previous track!');
                 });
+                totalvotes = 0;
             });
             // Error handling
             player.addListener('initialization_error', ({
@@ -312,6 +301,14 @@
                 $("#artist").text(current_track.artists[0].name);
                 $("#albumArt").prop("src", current_track.album.images[0].url);
                 $(".background-image").css('background-image', `url(${current_track.album.images[0].url})`);
+                $("#votinglist>li").remove();
+                $("#votinglist").append(
+                    `<li><a style='font-size:large;'>${state.track_window.next_tracks[0].name}</a></li>`
+                );
+                $("#votinglist").append(
+                    `<li><a style='font-size:large;'>${state.track_window.next_tracks[1].name}</a></li>`
+                )
+                socket.emit('poll', 'update');
             });
             player.addListener('ready', ({
                 device_id

@@ -5,7 +5,7 @@ var io = require('socket.io')(server);
 var bodyParser = require("body-parser");
 var SpotifyWebApi = require('spotify-web-api-node');
 
-const ACCESS_TOKEN = "BQBrBmdD0Ko2to7ycPQW7AJpozKZgV1_psYf24Ulkw8yn-tRdWyFM5MA_QzFOkXkWqkOEjcx5APhBxgWuZUnq85X_-IuAQCQ4fhp-rmM8e6G_ME_Rqy68w8fJTWM9C-li6UEgtAI5s1W1vCCisQBqDnsYp9A7Z-NG16cQ9k";
+const ACCESS_TOKEN = "BQDWbjsCHc3XIOSfm0LddcQtTr_HE7LIxtigE5Bxb9zJ4YKHcmUI9lDXE-7Fnr8jPquCZDYRImAAZ6CJ3AUfI8du7913EC1LyFl1YYgG5sB-ipkKRSDXTtnE6B-Ghk3fNizWjgmC2qHky3_EjX2HdTIHeb43_FOyeUqMkmY";
 // credentials are optional
 var spotifyApi = new SpotifyWebApi({
     clientId: 'bac3e679960b44728036dbc217e16533',
@@ -129,6 +129,9 @@ io.on('connection', function (client) {
             theroom.roomstate = data.roomstate;
             // console.log(theroom);
         }
+    });
+    client.on('poll', function (data) {
+        io.emit('update');
     });
     client.on('voted', function (data) {
         console.log(data);
