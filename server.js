@@ -5,7 +5,7 @@ var io = require('socket.io')(server);
 var bodyParser = require("body-parser");
 var SpotifyWebApi = require('spotify-web-api-node');
 
-const ACCESS_TOKEN = "BQC1FKCjKajHF0BwLIa6mKTJLk02eNqP3qWlphrK_h8FIoY73iU9PF1613QXH2ZmJQkTEeoYnk2Obdg4V7d7ZmezMuPf2WDYaZ1x9HNWJiEjf4rXu9ym5gOX0XIb3-F8MVd-xgk6Y1Ns5id6dfPZKg8nfGG6O0fjyqKa3gyM1nKKqWn8IyScTT5v";
+const ACCESS_TOKEN = "BQB0XRh0JOSA1Zxn17Cx6qhTCHsrv-PVl0Q_hC2JIe4nmK-749MTRbaBJ33YAoX4nlrCgbx1YRNzV34Nvo3EeQNPXcGPGD0d4PEO_-xrbWFMBuBhyT8yscO8H54bNmJRnDRp7wkOJuulrboFlmSSv5-pJSeFkSICngAFxx-A4vvnJcC0GyanheoV";
 // credentials are optional
 var spotifyApi = new SpotifyWebApi({
     clientId: 'bac3e679960b44728036dbc217e16533',
