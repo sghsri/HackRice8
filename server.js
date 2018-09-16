@@ -5,8 +5,12 @@ var io = require('socket.io')(server);
 var bodyParser = require("body-parser");
 var SpotifyWebApi = require('spotify-web-api-node');
 
+<<<<<<< Updated upstream
 var scopes = ['user-read-private', 'user-read-email'];
 
+=======
+const ACCESS_TOKEN = "BQBE67tx3cpvzWTKlwuN6-RVGY87VDCNlaayk9D8MdSyfd3GqdwdyplJ8Dh36DG2NPu4fRcKqkqX6aneRbyGcO0mylHyL_OCG1BIDNey4FvDcMEHVVISIkuT9nX7ZMkvXPHzXK9Gd4Srk9FR-g_HsVH-AiBvmnbglYVH9QY";
+>>>>>>> Stashed changes
 // credentials are optional
 var spotifyApi = new SpotifyWebApi({
     clientId: 'bac3e679960b44728036dbc217e16533',
@@ -57,7 +61,7 @@ app.get("/api/party/:id", (req, res) => {
     if (!theroom) {
         return res.status(404).send(`Could not find a room with id ${roomid}`);
     } else {
-        res.send(JSON.stringify(theroom));
+        res.send((theroom));
     }
 });
 app.get("*", (req, res) => {
@@ -69,13 +73,14 @@ app.post("/create", (req, res) => {
     //console.log(party.spotify_id);
     spotifyApi.getUserPlaylists(party.spotify_id)
         .then(function (data) {
-            console.log('Retrieved playlists', data.body);
             var roomid = generateRoomID();
             rooms.push({
                 id: roomid,
                 playlists: data.body,
-                vote: party
-
+                vote: party,
+                roomstate: undefined,
+                which: [],
+                numpeople: 0
             });
             console.log(rooms);
             res.send(roomid);
@@ -102,7 +107,7 @@ app.put("/party/:id", (req, res) => {
     console.log(party.vote.answers);
     var foundIndex = rooms.findIndex(x => x.id == req.params.id);
     rooms[foundIndex] = party;
-    io.to(party.id).emit('updatePoll', party);
+    io.emit('update', party);
     res.send("updated");
     console.log("updated host");
 });
@@ -124,8 +129,27 @@ app.delete("/api/party/:id", (req, res) => {
 io.on('connection', function (client) {
     console.log('Client connected...');
 
-    client.on('join', function (data) {
-        client.join(data);
+    client.on('room_state', function (data) {
+        var roomid = data.id;
+        var theroom = rooms.find(x => {
+            return x.id == roomid;
+        });
+        if (theroom) {
+            theroom.roomstate = data.roomstate;
+            // console.log(theroom);
+        }
+    });
+    client.on('voted', function (data) {
+        console.log(data);
+        io.emit('voted', data.voted);
+        // var roomid = data.id;
+        // var theroom = rooms.find(x => {
+        //     return x.id == roomid;
+        // });
+        // if (theroom) {
+        //     theroom.roomstate = data.roomstate;
+        //     console.log(theroom);
+        // }
     });
 
 });

@@ -191,19 +191,29 @@
         }
         window.onSpotifyWebPlaybackSDKReady = () => {
             const token =
+<<<<<<< Updated upstream
                 'BQBbjfOBGb6_lmZnO03vlrb4UVYk7tWjrdwxZU12DrQ6WXtZeHH4y4zYiLw_oVBIj2RvXzZMa7w8CDPJmgFVKWtAwMYQxlkitAf6X8XLUyq0fUTTL3VlJO-xMEqch8y_0Ba3-D9YXrHy_c17cneKHnNbdAxQ9eu775flcg';
+=======
+                'BQBbjNh3hS9bI1S_NbpCa2TwywsldNIQahijkVLcpblqhiy4hwzLSOZEEecAkAS618hrd7AA3F8K3zOd7LP9uBqJcBrxZjlAM4K6CGzatIvidrJHe-7v3FCtPtBEtiPTfsb3my_geZsdqh84g9Lud9_RaMH_qp-y0mO_OA';
+>>>>>>> Stashed changes
             const player = new Spotify.Player({
                 name: 'Web Playback SDK Quick Start Player',
                 getOAuthToken: cb => {
                     cb(token);
                 }
             });
-
+            var which = [0, 0];
             socket.on('pause', function (msg) {
+                console.log(msg);
                 toggleIcon();
                 player.togglePlay().then(() => {
                     console.log('Toggled playback!');
                 });
+            });
+
+            socket.on('voted', function (msg) {
+                which[msg]++;
+                console.log(which);
             });
             $(".playlist").click(() => {
                 console.log("hello");
@@ -224,8 +234,18 @@
                     $("#progress").css("margin-left", percentage);
                     var seconds = parseInt(((state.duration - state.position) / 1000));
                     $("#votetime").text(`${seconds} seconds`);
+                    if (seconds == 0) {
+                        if (which[1] > which[0]) {
+                            player.nextTrack().then(() => {
+                                player.nextTrack().then(() => {
+                                    console.log('Skipped to next next track!');
+                                });
+                            });
+                        }
+                        which = [0, 0];
+                    }
                     socket.emit('room_state', {
-                        id: 1,
+                        id: id,
                         roomstate: state
                     });
                 });
