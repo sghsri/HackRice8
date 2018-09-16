@@ -153,10 +153,25 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io();
+        var id = new URL(window.location.href).pathname.split('/')[2];
+        getCourse();
 
+        function getCourse() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var question = JSON.parse(this.responseText);
+                    console.log(question);
+                } else if (this.readyState == 4 && this.status == 404) {
+                    window.location.href = "/*";
+                }
+            };
+            xhttp.open("GET", `/api/party/${id}`, true);
+            xhttp.send();
+        }
         window.onSpotifyWebPlaybackSDKReady = () => {
             const token =
-                'BQBI9OlP50pkza1r3kCPQckNQ3zjmrbBOe__FNaLmydYG9tKaOHxZhrHY3D49DKu-fCY1tlEmRODFnE2ihPVMS8g_JB8XhT1RUJdlCPCnPqAM6af7Di9_A9ypoIc9bhreXC-YHStGWjmTlDjYjBZpfTkiFIqNqFKImr3hQ         ';
+                'BQCUgG4mHvSshzKMuJKdT5XttR8HbbAZfSLzUFBr4jOGvSk3vlChaEzxnirsPRlsGt2tTYDHju5HgGfb8IX-v7NQJQ1OP2pdqU0nX8UQ6uxm9u08LkhLNH1Wao5XONs07vVk7g0XtVyXijw1t5b9YwkCCw4BlhkrpKdolQ            ';
             const player = new Spotify.Player({
                 name: 'Web Playback SDK Quick Start Player',
                 getOAuthToken: cb => {

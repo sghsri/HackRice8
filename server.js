@@ -3,6 +3,17 @@ const app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var bodyParser = require("body-parser");
+var SpotifyWebApi = require('spotify-web-api-node');
+
+const ACCESS_TOKEN = "BQDNNc_FkPAH2SHFkLs0CLa4bC73mPLbuzabn5tlU6_p9MDYscr7XA00c-WCQI1gh4AbLqKF2vfVlNfMboryu7yuMZ9dVXg3rxKMPPN0KD1vf9ebGML6V8qzmXxk_bAZ0YdbpQy6hP3ZZ-exVbj3ki_fIESFXImaDUvR";
+// credentials are optional
+var spotifyApi = new SpotifyWebApi({
+    clientId: 'bac3e679960b44728036dbc217e16533',
+    clientSecret: 'f2d9a60b59334794ab649087b1eaf12b',
+    redirectUri: 'https://localhost:3000/main'
+});
+spotifyApi.setAccessToken(ACCESS_TOKEN);
+
 
 var rooms = [];
 
@@ -48,15 +59,23 @@ app.get("*", (req, res) => {
 
 app.post("/create", (req, res) => {
     var party = req.body;
-    console.log(party);
-    var roomid = generateRoomID();
-    rooms.push({
-        id: roomid,
-        vote: party
-    });
-    console.log(rooms);
-    res.send(roomid);
-    console.log(`Successfully created a party with id: ${roomid}`);
+    //console.log(party.spotify_id);
+    spotifyApi.getUserPlaylists(party.spotify_id)
+        .then(function (data) {
+            console.log('Retrieved playlists', data.body);
+            var roomid = generateRoomID();
+            rooms.push({
+                id: roomid,
+                playlists: data.body,
+                vote: party
+
+            });
+            console.log(rooms);
+            res.send(roomid);
+            console.log(`Successfully created a party with id: ${roomid}`);
+        }, function (err) {
+            console.log('Something went wrong!', err);
+        });
 });
 
 app.post("/join/:id", (req, res) => {
