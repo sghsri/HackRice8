@@ -5,7 +5,7 @@ var io = require('socket.io')(server);
 var bodyParser = require("body-parser");
 var SpotifyWebApi = require('spotify-web-api-node');
 
-const ACCESS_TOKEN = "BQDWbjsCHc3XIOSfm0LddcQtTr_HE7LIxtigE5Bxb9zJ4YKHcmUI9lDXE-7Fnr8jPquCZDYRImAAZ6CJ3AUfI8du7913EC1LyFl1YYgG5sB-ipkKRSDXTtnE6B-Ghk3fNizWjgmC2qHky3_EjX2HdTIHeb43_FOyeUqMkmY";
+const ACCESS_TOKEN = "BQDkXyjFy73sxSBtortc1Ncl4rG-MhSXiPzQe8fw2cHMlWwddpVp6OucAONvcY0rbxRk_hQN-qOA60_yCfLKoRjA_TP_yx7V908y94DBlzubEeb4k7sc7sWYRKs9OOD45l3CusnvXhF6HWRGECAVwp0WNpYJpSho-XjtrEJJy2OLjWT4or-1qLzb";
 // credentials are optional
 var spotifyApi = new SpotifyWebApi({
     clientId: 'bac3e679960b44728036dbc217e16533',
@@ -61,9 +61,11 @@ app.get("*", (req, res) => {
 
 app.post("/create", (req, res) => {
     var party = req.body;
+    var songIDList = [];
     //console.log(party.spotify_id);
     spotifyApi.getUserPlaylists(party.spotify_id)
         .then(function (data) {
+            console.log('Retrieved playlists', data.body);
             var roomid = generateRoomID();
             rooms.push({
                 id: roomid,
@@ -73,12 +75,29 @@ app.post("/create", (req, res) => {
                 which: [],
                 numpeople: 0
             });
+            // for(let i = 0; i < data.body.items.length; i++) {
+            //     songIDList.push(data.body.items[i].id);
+            // }
+            songIDList.push('0J6mQxEZnlRt9ymzFntA6z');
+            songIDList.push('43ZyHQITOjhciSUUNPVRHc');
+            songIDList.push('5xTtaWoae3wi06K5WfVUUH');
+            songIDList.push('2YlZnw2ikdb837oKMKjBkW');
+
+            console.log('idList: ' + songIDList);
             console.log(rooms);
             res.send(roomid);
             console.log(`Successfully created a party with id: ${roomid}`);
+
+            /* Get Audio Features for several tracks */
+            spotifyApi.getAudioFeaturesForTracks(songIDList)
+                .then(function(data) {
+                console.log('audio features:::: ' + JSON.stringify(data.body, undefined, 2));
+            }, function(err) {
+                done(err);
+            });
         }, function (err) {
             console.log('Something went wrong!', err);
-        });
+        });    
 });
 
 app.post("/join/:id", (req, res) => {
