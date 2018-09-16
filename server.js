@@ -5,15 +5,22 @@ var io = require('socket.io')(server);
 var bodyParser = require("body-parser");
 var SpotifyWebApi = require('spotify-web-api-node');
 
-const ACCESS_TOKEN = "BQDNNc_FkPAH2SHFkLs0CLa4bC73mPLbuzabn5tlU6_p9MDYscr7XA00c-WCQI1gh4AbLqKF2vfVlNfMboryu7yuMZ9dVXg3rxKMPPN0KD1vf9ebGML6V8qzmXxk_bAZ0YdbpQy6hP3ZZ-exVbj3ki_fIESFXImaDUvR";
+var scopes = ['user-read-private', 'user-read-email'];
+
 // credentials are optional
 var spotifyApi = new SpotifyWebApi({
     clientId: 'bac3e679960b44728036dbc217e16533',
     clientSecret: 'f2d9a60b59334794ab649087b1eaf12b',
-    redirectUri: 'https://localhost:3000/main'
+    redirectUri: 'https://localhost:3000/'
 });
-spotifyApi.setAccessToken(ACCESS_TOKEN);
 
+// Create the authorization URL
+var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
+console.log(authorizeURL);
+
+var code = 'BQD3g76qrzRG0ZlktktE7vUKdm2IdYOPzoB_g9MspI0rzJMC-ZIpqF6COWPI4sFkz87Fmusk_SsLan8Zw99pcJ7fwivdu9H_OZIx7dtky8Ig7zMhXy4bHPJUp7kV37N6DdMOKmBjgO4dbwQ2wSlM3d2A5RSW5WhF1AcqeiA';
+spotifyApi.setAccessToken(code);
+// https://accounts.spotify.com:443/authorize?client_id=5fe01282e44241328a84e7c5cc169165&response_type=code&redirect_uri=https://example.com/callback&scope=user-read-private%20user-read-email&state=some-state-of-my-choice
 
 var rooms = [];
 
